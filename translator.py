@@ -43,7 +43,7 @@ class Translator:
         for i in self.text:
             i = i.split("//")[0]
             i = i.strip()
-            i = i.replace("\'", '"')
+            i = i.replace("'", '"')
             i = i.replace("inp 0x1", "port1_in")
             i = i.replace("inp 0x2", "port2_in")
             i = i.replace("outp 0x1", "port1_out")
@@ -96,11 +96,7 @@ class Translator:
                 data_line = [int(data_line[2:])]
                 data_place -= 1
 
-            self.data.append({
-                "size": len(data_line),
-                "init": list(data_line),
-                "scr_line": i
-            })
+            self.data.append({"size": len(data_line), "init": list(data_line), "scr_line": i})
 
             data_place += len(data_line) + 1
 
@@ -139,12 +135,7 @@ class Translator:
 
             instr = Opcode(instr_line)
 
-            self.code.append({
-                "opcode": instr,
-                "arg": op,
-                "address_type": address_type,
-                "term": [i, instr]
-            })
+            self.code.append({"opcode": instr, "arg": op, "address_type": address_type, "term": [i, instr]})
 
             instruct_place += 1
 
@@ -161,7 +152,7 @@ class Translator:
             addr_type = instr["address_type"]
             arg = instr["arg"]
             if addr_type not in allowed_addressing[instr["opcode"]]:
-                raise Exception(f"Invalid address type for instruction: {instr['opcode']}")  # noqa: TRY003, TRY002
+                raise Exception(f"Invalid address type for instruction: {instr['opcode']}")  # noqa: TRY002, TRY003
 
             if addr_type not in [Address.LABEL_ADDR, Address.LABEL_VAL, Address.INDIRECT]:
                 continue
@@ -181,10 +172,7 @@ class Translator:
         self.first_stage()
         self.second_stage()
 
-        json_text = json.dumps({
-            "data": self.data,
-            "code": self.code
-        })
+        json_text = json.dumps({"data": self.data, "code": self.code})
 
         f = open(target, "w")
         f.write(json_text)

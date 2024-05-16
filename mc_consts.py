@@ -36,13 +36,12 @@ bit_dict["MUX_ALU_INPUT_S"] = bit_dict["MUX_ALU_INPUT"]
 # -5 - don't change
 SKIP_LIST = ["MUX_ADDR_S", "MUX_ALU_S", "MUX_ALU_INPUT_S"]
 
+
 def get_line_len():
     return max(bit_dict.values()) + 1
 
 
-START = [
-    ["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]
-]
+START = [["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]]
 
 # Command implementation
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR
@@ -52,38 +51,20 @@ ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
 ]
 
 
-STORE = [
-    ["MUX_IP", "DIN"] + ["M_IP"] + SKIP_LIST
-]
+STORE = [["MUX_IP", "DIN"] + ["M_IP"] + SKIP_LIST]
 
-JMP = [
-    ["M_IP"] + SKIP_LIST
-]
+JMP = [["M_IP"] + SKIP_LIST]
 
-JMPZ = [
-    ["MUX_JMP_TYPE"] + ["M_IP"] + SKIP_LIST
-]
+JMPZ = [["MUX_JMP_TYPE"] + ["M_IP"] + SKIP_LIST]
 
-INPUT = [
-    ["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["M_IP"] + ["MUX_ADDR_S", "MUX_ALU_S"]
-]
-PORT1_IN = [
-    ["MUX_IP", "PORT1_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST
-]
-PORT2_IN = [
-    ["MUX_IP", "PORT2_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST
-]
+INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["M_IP"] + ["MUX_ADDR_S", "MUX_ALU_S"]]
+PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]
+PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]
 
-OUTPUT = [
-    ["MUX_IP", "OUTPUT"] + ["M_IP"] + SKIP_LIST
-]
+OUTPUT = [["MUX_IP", "OUTPUT"] + ["M_IP"] + SKIP_LIST]
 
-PORT1_OUT = [
-    ["MUX_IP", "PORT1_OUT"] + ["M_IP"] + SKIP_LIST
-]
-PORT2_OUT = [
-    ["MUX_IP", "PORT2_OUT"] + ["M_IP"] + SKIP_LIST
-]
+PORT1_OUT = [["MUX_IP", "PORT1_OUT"] + ["M_IP"] + SKIP_LIST]
+PORT2_OUT = [["MUX_IP", "PORT2_OUT"] + ["M_IP"] + SKIP_LIST]
 
 HLT = []
 
@@ -110,17 +91,11 @@ op_dict = {
 #  Address implementation
 # После выполнения на левом входе АЛУ должен быть аргумент и в ADR его адрес
 
-DIR_ADDR = [
-]
+DIR_ADDR = []
 
-VAL = [
-    ["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]
-]
+VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]]
 
-INDIR = [
-    ["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"],
-    ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]
-]
+INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"], ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]
 
 NO_OP = []
 

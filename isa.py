@@ -60,7 +60,7 @@ opcode_list = [
     Opcode.PORT1_OUT,
     Opcode.PORT2_OUT,
     Opcode.PORT1_IN,
-    Opcode.PORT2_IN
+    Opcode.PORT2_IN,
 ]
 
 address_list = [

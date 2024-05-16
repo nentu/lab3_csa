@@ -18,6 +18,7 @@ class ControlUnit:
     decode_dict = None
 
     def __init__(self, dp: DataPath, need_log=False):
+        self.jmp = None
         self.need_log = need_log
         self.dp = dp
 
@@ -45,7 +46,7 @@ class ControlUnit:
             self.set_mux,
             self.latch_ip,
             dp.port_1_signal,
-            dp.port_2_signal
+            dp.port_2_signal,
         ]
 
         self.load_mem()
@@ -105,11 +106,13 @@ class ControlUnit:
 
     def log_state(self):
         cmd, addr = (i.name for i in code_to_operation(self.dp.reg_ir))
-        logging.debug(f"IP: {self.dp.reg_ip}; "
-                      f"IR: cmd: {cmd}, addr {addr}; "
-                      f"ADDR: {self.dp.reg_addr}; "
-                      f"Z: {self.dp.flag_z}; "
-                      f"ACC: {self.dp.acc}")
+        logging.debug(
+            f"IP: {self.dp.reg_ip}; "
+            f"IR: cmd: {cmd}, addr {addr}; "
+            f"ADDR: {self.dp.reg_addr}; "
+            f"Z: {self.dp.flag_z}; "
+            f"ACC: {self.dp.acc}"
+        )
 
 
 def get_input_list(input_text):
@@ -122,12 +125,12 @@ def get_input_list(input_text):
     return res
 
 
-def main(source_file, input_file):
-    with open(input_file) as input_file:
-        chr_list = get_input_list(input_file.read())
+def main(scr_name, input_name):
+    with open(input_name) as input_name:
+        chr_list = get_input_list(input_name.read())
 
     dp = DataPath(128, 128, chr_list)
-    dp.load_program(source_file)
+    dp.load_program(scr_name)
 
     cu = ControlUnit(dp, True)
 

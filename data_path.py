@@ -36,12 +36,7 @@ class DataPath:
         self.input_buffer = input_buffer
         self.output_buffer = list()
 
-        self.ports = [
-            {
-                "in": list(),
-                "out": list()
-            }
-            for i in range(2)]
+        self.ports = [{"in": list(), "out": list()} for i in range(2)]
 
         self.instruct_mem_size = instruct_mem_size
         self.data_mem_size = data_mem_size
@@ -68,7 +63,7 @@ class DataPath:
             "acc": self.acc,
             "z": self.flag_z,
             "ALU_instr": None,
-            "data_mem_input": 0
+            "data_mem_input": 0,
         }
         self.data_mem = list()
         self.instruct_mem = list()
