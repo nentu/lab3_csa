@@ -161,7 +161,7 @@ class Translator:
             addr_type = instr["address_type"]
             arg = instr["arg"]
             if addr_type not in allowed_addressing[instr["opcode"]]:
-                raise Exception(f"Invalid address type for instruction: {instr["opcode"]}")  # noqa: TRY003, TRY002
+                raise Exception(f"Invalid address type for instruction: {instr['opcode']}")  # noqa: TRY003, TRY002
 
             if addr_type not in [Address.LABEL_ADDR, Address.LABEL_VAL, Address.INDIRECT]:
                 continue
