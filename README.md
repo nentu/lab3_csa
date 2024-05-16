@@ -72,7 +72,7 @@ program ::= оператор | метка
 
 После того как транслятор обработал исходный код в память данных последовательно загружаются данные в виде массива целых
 чисел.
-Если при одном выделении памяти было использовано больше 1 ячейки, то перед данным в памяти пишется их количество.
+Если при выделении памяти было использовано больше 1 ячейки, то перед данным в памяти пишется их количество.
 
 Механика отображения *команд* на процессор:
 
@@ -88,10 +88,10 @@ program ::= оператор | метка
 Выделять память можно 3 способами
 
 - ввод значения (число или один символ)
-- резерв на заданное кол-во ячеек
+- резерв на заданное количество ячеек
 - Ввод строки из символов
 
-Все символы заменяются на из ascii коды.
+Все символы заменяются на ascii коды.
 Во 2 и 3 пунктах перед данными в память пишется количество занятых ячеек
 
 ## Система команд
@@ -147,10 +147,8 @@ program ::= оператор | метка
       "arg": 5,
       "address_type": "direct_addr",
       "term": [
-        1,
-        // номер строки исходного "очищенного" файла
-        "add"
-        // сам терм
+        1, // номер строки исходного "очищенного" файла
+        "add" // кодовое слово
       ]
     }
   ]
@@ -195,9 +193,9 @@ program ::= оператор | метка
 
 ## Модель процессора
 
-Интерфейс командной строки: `machine.py <machine_code_file> <input_file>`
+Интерфейс командной строки: `control_unit.py <machine_code_file> <input_file>`
 
-Реализовано в модуле: [machine](./control_unit.py).
+Реализовано в модуле: [control_unit](./control_unit.py).
 
 ### DataPath
 
@@ -294,89 +292,42 @@ program ::= оператор | метка
 - Шаг моделирования соответствует одной микроинструкции с инкрементированием счётчика `tick`.
 - Для журнала состояний процессора используется стандартный модуль `logging`.
 - Остановка моделирования осуществляется при:
-    - исключении `EmptyBufferException` -- если нет данных для чтения из порта ввода;
-    - исключении `HLTException` -- если выполнена инструкция `halt`.
+    - исключении `EmptyBufferError` -- если нет данных для чтения из порта ввода;
+    - исключении `HltError` -- если выполнена инструкция `halt`.
 
 ## Тестирование
 
 Тестирование выполняется при помощи golden test-ов.
 
-1. Тесты для языка `bf` реализованы в: [golden_bf_test.py](./golden_test.py). Конфигурации:
-    - [golden/hello_world.yml](golden/hello_world.yml) Вывод в буфер "Hello, world!"
-    - [golden/io.yml](golden/io.yml) Вывод в буфер вывода тест из буфера ввода
-    - [golden/prob1.yml](golden/prob1.yml) Реализации задачки
-    - [golden/say_hello.yml](golden/say_hello.yml) Запросить имя, и поздороваться с человеком
+Конфигурации
+- [golden/hello_world.yml](golden/hello_world.yml) Вывод в буфер "Hello, world!". Проверка работы с буфером вывода
+- [golden/cat.yml](golden/cat.yml) Вывод в буфер вывода тест из буфера ввода. Проверка работы с буфером ввода
+- [golden/prob1.yml](golden/prob1.yml) Реализации задачки. Проверка работы логики и математических операций.
+- [golden/say_hello.yml](golden/say_hello.yml) Запросить имя, и поздороваться с человеком. Проверка работы с памятью.
+
+#### Prob1
+
+Мне было предложено написать реализацию задачи используя созданную систему.
+`Find the sum of all the multiples of 3 or 5 below 1000.`
+
+Для уменьшения системы команд я решил реализовать это задачку используя формулу *включения исключения*.
+В общем виде она выглядит так: 
+![img.png](resources/img.png)
+
+Если у нас A1 - сумма кратных 3.
+И A2 - сумма кратных 5.
+
+Тогда их пересечение - сумма кратных 15.
+А объединение - сумма кратных или 3, или 15.
+
+Это позволило не реализовывать операции умножения и деления в текущей версии.
+
+
+### Пример использования и журнал работы процессора на примере `cat`:
 
 Запустить тесты: `poetry run pytest . -v`
 
 Обновить конфигурацию golden tests:  `poetry run pytest . -v --update-goldens`
-
-CI при помощи Github Action:
-
-``` yaml
-defaults:
-  run:
-    working-directory: ./python
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-
-      - name: Run tests and collect coverage
-        run: |
-          poetry run coverage run -m pytest .
-          poetry run coverage report -m
-        env:
-          CI: true
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-
-      - name: Check code formatting with Ruff
-        run: poetry run ruff format --check .
-
-      - name: Run Ruff linters
-        run: poetry run ruff check .
-```
-
-где:
-
-- `poetry` -- управления зависимостями для языка программирования Python.
-- `coverage` -- формирование отчёта об уровне покрытия исходного кода.
-- `pytest` -- утилита для запуска тестов.
-- `ruff` -- утилита для форматирования и проверки стиля кодирования.
-
-Пример использования и журнал работы процессора на примере `cat`:
 
 Данный алгоритм должен считать символы из потока ввода и выводить в поток вывода пока буфер не закончится
 
@@ -393,35 +344,25 @@ section .code
 
 ```json
   {
-  "data": [
-  ],
+  "data": [],
   "code": [
     {
       "opcode": "input",
       "arg": 0,
       "address_type": "no_op",
-      "term": [
-        1,
-        "input"
-      ]
+      "term": [1, "input"]
     },
     {
       "opcode": "output",
       "arg": 0,
       "address_type": "no_op",
-      "term": [
-        2,
-        "output"
-      ]
+      "term": [2, "output"]
     },
     {
       "opcode": "jmp",
       "arg": 0,
       "address_type": "label_val",
-      "term": [
-        3,
-        "jmp"
-      ]
+      "term": [3, "jmp"]
     }
   ]
 }
@@ -441,25 +382,23 @@ Tick count: 29, Command count: 13
 
 ``` shell
 $ poetry run pytest . -v
-=================================== test session starts ====================================
-platform darwin -- Python 3.12.0, pytest-7.4.3, pluggy-1.3.0 -- /Users/ryukzak/Library/Caches/pypoetry/virtualenvs/brainfuck-NIOcuFng-py3.12/bin/python
+=========================================================================== test session starts ===========================================================================
+platform win32 -- Python 3.12.3, pytest-7.4.4, pluggy-1.5.0 -- C:\Users\zam12\AppData\Local\pypoetry\Cache\virtualenvs\brainfuck-Cf_pj6Oh-py3.12\Scripts\python.exe
 cachedir: .pytest_cache
-rootdir: /Users/ryukzak/edu/csa/src/brainfuck
+rootdir: C:\Users\zam12\OneDrive\Документы\university\course2\csa\lab3_done
 configfile: pyproject.toml
 plugins: golden-0.2.2
-collected 6 items
+collected 4 items
 
-integration_test.py::test_translator_and_machine[golden/cat.yml] PASSED              [ 16%]
-integration_test.py::test_translator_and_machine[golden/hello.yml] PASSED            [ 33%]
-integration_test.py::TestTranslatorAndMachine::test_cat_example PASSED               [ 50%]
-integration_test.py::TestTranslatorAndMachine::test_cat_example_log PASSED           [ 66%]
-integration_test.py::TestTranslatorAndMachine::test_hello_example PASSED             [ 83%]
-machine.py::machine.DataPath.signal_wr PASSED                                        [100%]
+golden_test.py::test_translator_and_machine[golden/cat.yml] PASSED                                                                                                   [ 25%]
+golden_test.py::test_translator_and_machine[golden/hello_world.yml] PASSED                                                                                           [ 50%]
+golden_test.py::test_translator_and_machine[golden/prob1.yml] PASSED                                                                                                 [ 75%]
+golden_test.py::test_translator_and_machine[golden/say_hello.yml] PASSED                                                                                             [100%]
 
-==================================== 6 passed in 0.14s =====================================
+============================================================================ 4 passed in 0.64s ============================================================================
 $ poetry run ruff check .
 $ poetry run ruff format .
-4 files left unchanged
+7 files left unchanged
 ```
 
 | ФИО                     | алг             | LoC | code байт | code инстр. | инстр. | такт. | вариант                                                                                                 |
