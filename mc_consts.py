@@ -41,30 +41,30 @@ def get_line_len():
     return max(bit_dict.values()) + 1
 
 
-START = [["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]]
+START = [["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]]  # noqa: RUF005
 
 # Command implementation
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR
 
 ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
-    ["MUX_IP", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST
+    ["MUX_IP", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST  # noqa: RUF005
 ]
 
 
-STORE = [["MUX_IP", "DIN"] + ["M_IP"] + SKIP_LIST]
+STORE = [["MUX_IP", "DIN"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
-JMP = [["M_IP"] + SKIP_LIST]
+JMP = [["M_IP", *SKIP_LIST]]
 
-JMPZ = [["MUX_JMP_TYPE"] + ["M_IP"] + SKIP_LIST]
+JMPZ = [["MUX_JMP_TYPE"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
-INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["M_IP"] + ["MUX_ADDR_S", "MUX_ALU_S"]]
-PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]
-PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]
+INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["M_IP"] + ["MUX_ADDR_S", "MUX_ALU_S"]]  # noqa: RUF005
+PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
+PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
-OUTPUT = [["MUX_IP", "OUTPUT"] + ["M_IP"] + SKIP_LIST]
+OUTPUT = [["MUX_IP", "OUTPUT"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
-PORT1_OUT = [["MUX_IP", "PORT1_OUT"] + ["M_IP"] + SKIP_LIST]
-PORT2_OUT = [["MUX_IP", "PORT2_OUT"] + ["M_IP"] + SKIP_LIST]
+PORT1_OUT = [["MUX_IP", "PORT1_OUT"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
+PORT2_OUT = [["MUX_IP", "PORT2_OUT"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
 HLT = []
 
@@ -93,9 +93,9 @@ op_dict = {
 
 DIR_ADDR = []
 
-VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]]
+VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
-INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"], ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]
+INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"], ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
 NO_OP = []
 
