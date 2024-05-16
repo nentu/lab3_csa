@@ -2,6 +2,7 @@ defaults:
   run:
     working-directory: .
 
+on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
