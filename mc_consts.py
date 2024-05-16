@@ -94,8 +94,7 @@ DIR_ADDR = []
 
 VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
-INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"],
-         ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
+INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"], ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
 NO_OP = []
 
@@ -106,5 +105,3 @@ address_dict = {
     Address.LABEL_VAL: VAL,
     Address.INDIRECT: INDIR,
 }
-
-
