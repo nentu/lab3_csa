@@ -1,0 +1,46 @@
+in_source: |-
+  section .code
+      start: input
+      output
+      jmp start
+
+in_stdin: |-
+  test
+out_code: |-
+  {
+  "data": [
+  ],
+  "code": [
+  	{"opcode": "input", "arg": 0, "address_type": "no_op", "term": [1, "input"]},
+  	{"opcode": "output", "arg": 0, "address_type": "no_op", "term": [2, "output"]},
+  	{"opcode": "jmp", "arg": 0, "address_type": "label_val", "term": [3, "jmp"]}
+  ]}
+out_stdout: |
+  test
+
+  Tick count: 29, Command count: 13
+
+out_log: |
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INC, addr NO_OP; ADDR: 0; Z: 0; ACC: 0
+  DEBUG   data_path:_get_mux_alu_input input: 116
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 116
+  DEBUG   data_path:output_signal Output: [] <= 116
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: OUTPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 116
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 116
+  DEBUG   data_path:_get_mux_alu_input input: 101
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 101
+  DEBUG   data_path:output_signal Output: ['t'] <= 101
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: OUTPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 101
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 101
+  DEBUG   data_path:_get_mux_alu_input input: 115
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 115
+  DEBUG   data_path:output_signal Output: ['t', 'e'] <= 115
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: OUTPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 115
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 115
+  DEBUG   data_path:_get_mux_alu_input input: 116
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 116
+  DEBUG   data_path:output_signal Output: ['t', 'e', 's'] <= 116
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: OUTPUT, addr NO_OP; ADDR: 0; Z: False; ACC: 116
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 116
+  WARNING data_path:_get_mux_alu_input Input buffer is empty!
+

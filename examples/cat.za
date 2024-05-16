@@ -1,0 +1,4 @@
+section .code
+    start: input
+    output
+    jmp start

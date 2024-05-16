@@ -1,0 +1,204 @@
+in_source: |-
+  section .data
+      string: 'Hello, world!'
+      left_size: 0
+      current_pose: 0
+
+  section .code
+      load &string // (address of string to acc)
+      store current_pose
+      load (current_pose)
+      store left_size
+
+  p_loop: load current_pose
+      inc
+      store current_pose
+      load (current_pose)
+      output
+      load left_size
+      dec
+      store left_size
+      jmpz p_end
+      jmp p_loop
+  p_end: hlt
+
+in_stdin: |-
+  foo
+out_code: |-
+  {
+  "data": [
+  	{"size": 13, "init": [72, 101, 108, 108, 111, 44, 32, 119, 111, 114, 108, 100, 33], "scr_line": 1},
+  	{"size": 1, "init": ["0"], "scr_line": 2},
+  	{"size": 1, "init": ["0"], "scr_line": 3}
+  ],
+  "code": [
+  	{"opcode": "load", "arg": 0, "address_type": "label_addr", "term": [5, "load"]},
+  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [6, "store"]},
+  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [7, "load"]},
+  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [8, "store"]},
+  	{"opcode": "load", "arg": 16, "address_type": "label_val", "term": [9, "load"]},
+  	{"opcode": "inc", "arg": 0, "address_type": "no_op", "term": [10, "inc"]},
+  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [11, "store"]},
+  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [12, "load"]},
+  	{"opcode": "output", "arg": 0, "address_type": "no_op", "term": [13, "output"]},
+  	{"opcode": "load", "arg": 14, "address_type": "label_val", "term": [14, "load"]},
+  	{"opcode": "dec", "arg": 0, "address_type": "no_op", "term": [15, "dec"]},
+  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [16, "store"]},
+  	{"opcode": "jmpz", "arg": 14, "address_type": "label_val", "term": [17, "jmpz"]},
+  	{"opcode": "jmp", "arg": 4, "address_type": "label_val", "term": [18, "jmp"]},
+  	{"opcode": "hlt", "arg": 0, "address_type": "no_op", "term": [19, "hlt"]}
+  ]}
+out_stdout: |
+  Hello, world!
+
+  Tick count: 373, Command count: 134
+
+out_log: |
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INC, addr NO_OP; ADDR: 0; Z: 0; ACC: 0
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: LOAD, addr LABEL_ADDR; ADDR: 0; Z: True; ACC: 0
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: True; ACC: 0
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: LOAD, addr INDIRECT; ADDR: 0; Z: False; ACC: 13
+  DEBUG   control_unit:log_state     IP: 3; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 13
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: True; ACC: 0
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 1; Z: False; ACC: 72
+  DEBUG   data_path:output_signal Output: [] <= 72
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 1; Z: False; ACC: 72
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 13
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 2; Z: False; ACC: 101
+  DEBUG   data_path:output_signal Output: ['H'] <= 101
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 2; Z: False; ACC: 101
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 3; Z: False; ACC: 108
+  DEBUG   data_path:output_signal Output: ['H', 'e'] <= 108
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 3; Z: False; ACC: 108
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 4; Z: False; ACC: 108
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l'] <= 108
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 4; Z: False; ACC: 108
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 5; Z: False; ACC: 111
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l'] <= 111
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 5; Z: False; ACC: 111
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 6; Z: False; ACC: 44
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o'] <= 44
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 6; Z: False; ACC: 44
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 7; Z: False; ACC: 32
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ','] <= 32
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 7; Z: False; ACC: 32
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 8; Z: False; ACC: 119
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' '] <= 119
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 8; Z: False; ACC: 119
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 9; Z: False; ACC: 111
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w'] <= 111
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 9; Z: False; ACC: 111
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 9
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 10; Z: False; ACC: 114
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o'] <= 114
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 10; Z: False; ACC: 114
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 10
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 11; Z: False; ACC: 108
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r'] <= 108
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 11; Z: False; ACC: 108
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 11
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 12; Z: False; ACC: 100
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l'] <= 100
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 12; Z: False; ACC: 100
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 13; IR: cmd: JMP, addr LABEL_VAL; ADDR: 4; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 12
+  DEBUG   control_unit:log_state     IP: 5; IR: cmd: INC, addr NO_OP; ADDR: 16; Z: False; ACC: 13
+  DEBUG   control_unit:log_state     IP: 6; IR: cmd: STORE, addr LABEL_VAL; ADDR: 16; Z: False; ACC: 13
+  DEBUG   control_unit:log_state     IP: 7; IR: cmd: LOAD, addr INDIRECT; ADDR: 13; Z: False; ACC: 33
+  DEBUG   data_path:output_signal Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'] <= 33
+  DEBUG   control_unit:log_state     IP: 8; IR: cmd: OUTPUT, addr NO_OP; ADDR: 13; Z: False; ACC: 33
+  DEBUG   control_unit:log_state     IP: 9; IR: cmd: LOAD, addr LABEL_VAL; ADDR: 14; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 10; IR: cmd: DEC, addr NO_OP; ADDR: 14; Z: True; ACC: 0
+  DEBUG   control_unit:log_state     IP: 11; IR: cmd: STORE, addr LABEL_VAL; ADDR: 14; Z: True; ACC: 0
+  DEBUG   control_unit:log_state     IP: 12; IR: cmd: JMPZ, addr LABEL_VAL; ADDR: 14; Z: True; ACC: 0
+
