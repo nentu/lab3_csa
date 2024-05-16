@@ -17,8 +17,8 @@ bit_dict = {
     "ALU": 8,
     "ACC": 9,
     "OUTPUT": 10,
-    "DIN": 11,
-    "DOUT": 12,
+    "DIN": 11,  # data input
+    "DOUT": 12,  # data output
     "M_MUX_IP": 13,
     "M_IP": 14,
     "PORT1_OUT": 15,
@@ -49,7 +49,6 @@ START = [["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]]  # noqa: RUF005
 ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
     ["MUX_IP", "ALU", "ACC"] + ["M_IP"] + SKIP_LIST  # noqa: RUF005
 ]
-
 
 STORE = [["MUX_IP", "DIN"] + ["M_IP"] + SKIP_LIST]  # noqa: RUF005
 
@@ -95,7 +94,8 @@ DIR_ADDR = []
 
 VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
-INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"], ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
+INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP"],
+         ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP"]]  # noqa: RUF005
 
 NO_OP = []
 
@@ -107,5 +107,4 @@ address_dict = {
     Address.INDIRECT: INDIR,
 }
 
-if __name__ == "__main__":
-    print(get_line_len())
+
