@@ -52,6 +52,8 @@ program ::= оператор | метка
 
 ## Организация памяти
 
+[//]: # (TODO registers list)
+[//]: # (TODO other qustions from doc)
 Модель памяти процессора Гарвардская (отдельная память для команд и данных):
 
 1. Память команд. Машинное слово -- не определено. Реализуется списком словарей, описывающих инструкции (одно слово --
@@ -199,8 +201,7 @@ program ::= оператор | метка
 
 ### DataPath
 
-[//]: # (TODO ascii graph)
-
+![img.png](resources/scheme/DataPath.svg)
 
 Реализован в модуле: [Datapath](./data_path.py).
 
@@ -235,7 +236,8 @@ program ::= оператор | метка
 
 ### ControlUnit
 
-[//]: # (TODO ascii graph)
+![img.png](resources/scheme/control_unit.svg)
+
 
 Реализован в классе в модуле: [ControlUnit](./control_unit.py).
 Сигналы:
