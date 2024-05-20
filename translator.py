@@ -103,7 +103,7 @@ class Translator:
             i += 1
 
         while i < len(self.text):
-            instr_line = self.text[i]
+            origin_line = instr_line = self.text[i]
 
             if instr_line.count(":") > 1:
                 raise InvalidCodeError(":", data_line)
@@ -135,7 +135,7 @@ class Translator:
 
             instr = Opcode(instr_line)
 
-            self.code.append({"opcode": instr, "arg": op, "address_type": address_type, "term": [i, instr]})
+            self.code.append({"opcode": instr, "arg": op, "address_type": address_type, "term": [i, origin_line]})
 
             instruct_place += 1
 

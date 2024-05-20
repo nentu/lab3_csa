@@ -32,21 +32,21 @@ out_code: |-
   	{"size": 1, "init": ["0"], "scr_line": 3}
   ],
   "code": [
-  	{"opcode": "load", "arg": 0, "address_type": "label_addr", "term": [5, "load"]},
-  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [6, "store"]},
-  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [7, "load"]},
-  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [8, "store"]},
-  	{"opcode": "load", "arg": 16, "address_type": "label_val", "term": [9, "load"]},
+  	{"opcode": "load", "arg": 0, "address_type": "label_addr", "term": [5, "load &string"]},
+  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [6, "store current_pose"]},
+  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [7, "load (current_pose)"]},
+  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [8, "store left_size"]},
+  	{"opcode": "load", "arg": 16, "address_type": "label_val", "term": [9, "p_loop: load current_pose"]},
   	{"opcode": "inc", "arg": 0, "address_type": "no_op", "term": [10, "inc"]},
-  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [11, "store"]},
-  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [12, "load"]},
+  	{"opcode": "store", "arg": 16, "address_type": "label_val", "term": [11, "store current_pose"]},
+  	{"opcode": "load", "arg": 16, "address_type": "indirect_addr", "term": [12, "load (current_pose)"]},
   	{"opcode": "output", "arg": 0, "address_type": "no_op", "term": [13, "output"]},
-  	{"opcode": "load", "arg": 14, "address_type": "label_val", "term": [14, "load"]},
+  	{"opcode": "load", "arg": 14, "address_type": "label_val", "term": [14, "load left_size"]},
   	{"opcode": "dec", "arg": 0, "address_type": "no_op", "term": [15, "dec"]},
-  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [16, "store"]},
-  	{"opcode": "jmpz", "arg": 14, "address_type": "label_val", "term": [17, "jmpz"]},
-  	{"opcode": "jmp", "arg": 4, "address_type": "label_val", "term": [18, "jmp"]},
-  	{"opcode": "hlt", "arg": 0, "address_type": "no_op", "term": [19, "hlt"]}
+  	{"opcode": "store", "arg": 14, "address_type": "label_val", "term": [16, "store left_size"]},
+  	{"opcode": "jmpz", "arg": 14, "address_type": "label_val", "term": [17, "jmpz p_end"]},
+  	{"opcode": "jmp", "arg": 4, "address_type": "label_val", "term": [18, "jmp p_loop"]},
+  	{"opcode": "hlt", "arg": 0, "address_type": "no_op", "term": [19, "p_end: hlt"]}
   ]}
 out_stdout: |
   Hello, world!

@@ -11,9 +11,9 @@ out_code: |-
   "data": [
   ],
   "code": [
-  	{"opcode": "input", "arg": 0, "address_type": "no_op", "term": [1, "input"]},
+  	{"opcode": "input", "arg": 0, "address_type": "no_op", "term": [1, "start: input"]},
   	{"opcode": "output", "arg": 0, "address_type": "no_op", "term": [2, "output"]},
-  	{"opcode": "jmp", "arg": 0, "address_type": "label_val", "term": [3, "jmp"]}
+  	{"opcode": "jmp", "arg": 0, "address_type": "label_val", "term": [3, "jmp start"]}
   ]}
 out_stdout: |
   test
