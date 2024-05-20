@@ -17,7 +17,6 @@ in_source: |-
       sub 0x999
       jmpz end_3
       jmp loop_3
-
   end_3: cls
       store current_i
 
@@ -26,12 +25,10 @@ in_source: |-
       store current_i
       add res
       store res
-
       load current_i
       sub 0x995
       jmpz end_5
       jmp loop_5
-
   end_5: cls
       store current_i
 
@@ -41,12 +38,10 @@ in_source: |-
       sub res
       neg
       store res
-
       load current_i
       sub 0x990
       jmpz end_15
       jmp loop_15
-
   end_15: load res
       output
   	hlt
