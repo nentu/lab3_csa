@@ -31,6 +31,7 @@ class ControlUnit:
 
         self.bits_func = [
             dp.latch_reg_ip_signal,
+            dp.get_instruction_signal,
             dp.set_mux_ip_signal,
             dp.set_mux_jmp_type,
             dp.latch_reg_ir_signal,
@@ -73,9 +74,9 @@ class ControlUnit:
             self.reg_ip += 1
         elif self.mux == 2:
             self.reg_ip = self.decode()
-        self.get_instruction()
+        self.get_instruction_signal()
 
-    def get_instruction(self):
+    def get_instruction_signal(self):
         self.current_instr = self.mc_mem[self.reg_ip]
 
     def juggernaut(self):

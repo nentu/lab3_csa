@@ -7,22 +7,23 @@ from isa import Address, Opcode
 
 bit_dict = {
     "IP": 0,
-    "MUX_IP": 1,
-    "MUX_JMP_TYPE": 2,
-    "IR": 3,
-    "MUX_ADDR": 4,
-    "ADDR": 5,
-    "MUX_ALU": 6,
-    "MUX_ALU_INPUT": 7,
-    "ALU": 8,
-    "ACC": 9,
-    "OUTPUT": 10,
-    "DIN": 11,  # data input
-    "DOUT": 12,  # data output
-    "M_MUX_IP": 13,
-    "M_IP": 14,
-    "PORT1_OUT": 15,
-    "PORT2_OUT": 16,
+    "IM": 1,
+    "MUX_IP": 2,
+    "MUX_JMP_TYPE": 3,
+    "IR": 4,
+    "MUX_ADDR": 5,
+    "ADDR": 6,
+    "MUX_ALU": 7,
+    "MUX_ALU_INPUT": 8,
+    "ALU": 9,
+    "ACC": 10,
+    "OUTPUT": 11,
+    "DIN": 12,  # data input
+    "DOUT": 13,  # data output
+    "M_MUX_IP": 14,
+    "M_IP": 15,
+    "PORT1_OUT": 16,
+    "PORT2_OUT": 17,
 }
 
 bit_dict["M_MUX_IP_2"] = -2
@@ -41,7 +42,7 @@ def get_line_len():
     return max(bit_dict.values()) + 1
 
 
-START = [["IP", "IR"] + ["M_MUX_IP_2", "M_IP"]]  # noqa: RUF005
+START = [["IP", "IR", "IM"] + ["M_MUX_IP_2", "M_IP"]]  # noqa: RUF005
 
 # Command implementation
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR

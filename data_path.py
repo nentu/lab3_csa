@@ -74,7 +74,9 @@ class DataPath:
     def load_instr_mem(self, instr_list: list):
         self.instruct_mem = instr_list + [0] * (self.instruct_mem_size - len(instr_list))
 
-    def get_instruction_signal(self):
+    def get_instruction_signal(self, s):
+        if s == 0:
+            return
         ip_reg = self.signals_dict["reg_ip"]
         instr = self.instruct_mem[ip_reg]
         code = operation_to_code(instr["opcode"], instr["address_type"])
@@ -156,7 +158,7 @@ class DataPath:
         self.reg_ip = self.signals_dict["MUX_ip"][self.mux_ip_i]
         self.signals_dict["MUX_ip"][1] = self.reg_ip + 1
         self.signals_dict["reg_ip"] = self.reg_ip
-        self.get_instruction_signal()
+        # self.get_instruction_signal()
 
     def latch_reg_ir_signal(self, s=1):
         if s == 0:
