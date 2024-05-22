@@ -158,7 +158,6 @@ class DataPath:
         self.reg_ip = self.signals_dict["MUX_ip"][self.mux_ip_i]
         self.signals_dict["MUX_ip"][1] = self.reg_ip + 1
         self.signals_dict["reg_ip"] = self.reg_ip
-        # self.get_instruction_signal()
 
     def latch_reg_ir_signal(self, s=1):
         if s == 0:

@@ -76,7 +76,6 @@ class ControlUnit:
             self.reg_ip += 1
         elif self.mux == 2:
             self.reg_ip = self.decode()
-        # self.get_mc_instruction_signal()
 
     def get_mc_instruction_signal(self, s=1):
         if s == 0:

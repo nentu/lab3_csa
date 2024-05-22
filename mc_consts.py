@@ -98,8 +98,8 @@ VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"]]  
 
 INDIR = [
     ["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"],  # noqa: RUF005
-    ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP", "M_IM"],
-]  # noqa: RUF005
+    ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP", "M_IM"],  # noqa: RUF005
+]
 
 NO_OP = []
 
