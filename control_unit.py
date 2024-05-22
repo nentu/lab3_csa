@@ -46,6 +46,7 @@ class ControlUnit:
             dp.get_data_signal,
             self.set_mux,
             self.latch_ip,
+            self.get_mc_instruction_signal,
             dp.port_1_signal,
             dp.port_2_signal,
         ]
@@ -54,6 +55,7 @@ class ControlUnit:
 
         self.set_mux(0)
         self.latch_ip()
+        self.get_mc_instruction_signal()
 
     def set_jmp_mux(self, signal):
         self.jmp = signal
@@ -74,9 +76,11 @@ class ControlUnit:
             self.reg_ip += 1
         elif self.mux == 2:
             self.reg_ip = self.decode()
-        self.get_instruction_signal()
+        # self.get_mc_instruction_signal()
 
-    def get_instruction_signal(self):
+    def get_mc_instruction_signal(self, s = 1):
+        if s == 0:
+            return
         self.current_instr = self.mc_mem[self.reg_ip]
 
     def juggernaut(self):
@@ -94,10 +98,9 @@ class ControlUnit:
     def execute(self):
         cmd = self.current_instr
         for bit, func in zip(cmd, self.bits_func):
-            if bit:
-                func(bit)
-            else:
-                func(bit)
+            # if func == self.get_mc_instruction_signal:
+            #     pass
+            func(bit)
 
     def decode(self):
         return self.decode_dict[self.dp.reg_ir]
