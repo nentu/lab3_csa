@@ -24,7 +24,7 @@ bit_dict = {
     "M_IP": 15,
     "M_IM": 16,
     "PORT1_OUT": 17,
-    "PORT2_OUT": 18
+    "PORT2_OUT": 18,
 }
 
 bit_dict["M_MUX_IP_2"] = -2
@@ -96,8 +96,10 @@ DIR_ADDR = []
 
 VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"]]  # noqa: RUF005
 
-INDIR = [["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"],   # noqa: RUF005
-         ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP", "M_IM"]]  # noqa: RUF005
+INDIR = [
+    ["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"],  # noqa: RUF005
+    ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP", "M_IM"],
+]  # noqa: RUF005
 
 NO_OP = []
 

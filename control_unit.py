@@ -78,7 +78,7 @@ class ControlUnit:
             self.reg_ip = self.decode()
         # self.get_mc_instruction_signal()
 
-    def get_mc_instruction_signal(self, s = 1):
+    def get_mc_instruction_signal(self, s=1):
         if s == 0:
             return
         self.current_instr = self.mc_mem[self.reg_ip]
