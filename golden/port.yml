@@ -1,0 +1,65 @@
+in_source: |-
+  section .code
+      start: inp 0x1
+      outp 0x2
+      inp 0x2 
+      outp 0x1
+      jmp start
+
+in_stdin: |-
+  1 1234 5678
+out_code: |-
+  {
+    "data": [],
+    "code": [
+      {"opcode": "port1_in", "arg": 0, "address_type": "no_op", "term": [1, "start: port1_in"]},
+      {"opcode": "port2_out", "arg": 0, "address_type": "no_op", "term": [2, "port2_out"]},
+      {"opcode": "port2_in", "arg": 0, "address_type": "no_op", "term": [3, "port2_in"]},
+      {"opcode": "port1_out", "arg": 0, "address_type": "no_op", "term": [4, "port1_out"]},
+      {"opcode": "jmp", "arg": 0, "address_type": "label_val", "term": [5, "jmp start"]}
+    ]
+  }
+out_stdout: |
+  56781234
+
+  Tick count: 112, Command count: 21
+
+out_log: |
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: INC, addr NO_OP; ADDR: 0; Z: 0; ACC: 0
+  DEBUG   data_path:_get_mux_alu_input input from port #0: 1
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: PORT1_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 1
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: PORT2_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 1
+  DEBUG   data_path:_port_signal  Output port2: [] <= 1
+  DEBUG   data_path:_get_mux_alu_input input from port #1: 5
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: PORT2_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 5
+  DEBUG   control_unit:log_state     IP: 3; IR: cmd: PORT1_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 5
+  DEBUG   data_path:_port_signal  Output port1: [] <= 5
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 5
+  DEBUG   data_path:_get_mux_alu_input input from port #0: 2
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: PORT1_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 2
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: PORT2_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 2
+  DEBUG   data_path:_port_signal  Output port2: [1] <= 2
+  DEBUG   data_path:_get_mux_alu_input input from port #1: 6
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: PORT2_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 6
+  DEBUG   control_unit:log_state     IP: 3; IR: cmd: PORT1_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 6
+  DEBUG   data_path:_port_signal  Output port1: [5] <= 6
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 6
+  DEBUG   data_path:_get_mux_alu_input input from port #0: 3
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: PORT1_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 3
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: PORT2_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 3
+  DEBUG   data_path:_port_signal  Output port2: [1, 2] <= 3
+  DEBUG   data_path:_get_mux_alu_input input from port #1: 7
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: PORT2_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 7
+  DEBUG   control_unit:log_state     IP: 3; IR: cmd: PORT1_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 7
+  DEBUG   data_path:_port_signal  Output port1: [5, 6] <= 7
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 7
+  DEBUG   data_path:_get_mux_alu_input input from port #0: 4
+  DEBUG   control_unit:log_state     IP: 0; IR: cmd: PORT1_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 4
+  DEBUG   control_unit:log_state     IP: 1; IR: cmd: PORT2_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 4
+  DEBUG   data_path:_port_signal  Output port2: [1, 2, 3] <= 4
+  DEBUG   data_path:_get_mux_alu_input input from port #1: 8
+  DEBUG   control_unit:log_state     IP: 2; IR: cmd: PORT2_IN, addr NO_OP; ADDR: 0; Z: False; ACC: 8
+  DEBUG   control_unit:log_state     IP: 3; IR: cmd: PORT1_OUT, addr NO_OP; ADDR: 0; Z: False; ACC: 8
+  DEBUG   data_path:_port_signal  Output port1: [5, 6, 7] <= 8
+  DEBUG   control_unit:log_state     IP: 4; IR: cmd: JMP, addr LABEL_VAL; ADDR: 0; Z: False; ACC: 8
+  WARNING data_path:_get_mux_alu_input port buffer #0 is empty

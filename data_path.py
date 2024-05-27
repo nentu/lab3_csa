@@ -101,7 +101,7 @@ class DataPath:
             port_id = self.mux_alu_input_i - 2
             buffer = self.ports[port_id]["in"]
             if len(buffer) == 0:
-                logging.debug(f"port buffer #{port_id} is empty")
+                logging.warning(f"port buffer #{port_id} is empty")
                 raise EmptyBufferError()
             mux = buffer.pop(0)
             logging.debug(f"input from port #{port_id}: {mux}")
@@ -222,6 +222,7 @@ class DataPath:
         self._port_signal(1)
 
     def _port_signal(self, i):
+        logging.debug(f"Output port{i + 1}: {self.ports[i]["out"]} <= {self.acc}")
         self.ports[i]["out"].append(self.acc)
 
     def load_program(self, program_name):

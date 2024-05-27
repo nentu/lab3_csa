@@ -130,34 +130,44 @@ class ControlUnit:
 
 
 def get_input_list(input_text):
-    res = list()
-    for i in list(input_text):
-        if i.isdigit():
-            res.append(int(i))
-        else:
-            res.append(ord(i))
-    return res
+    res_list = list()
+    for input_text in input_text.split():
+        res = list()
+        for i in list(input_text):
+            if i.isdigit():
+                res.append(int(i))
+            else:
+                res.append(ord(i))
+        res_list.append(res)
+
+    while len(res_list) < 3:
+        res_list.append([])
+
+    return res_list
 
 
 def main(scr_name, input_name):
     with open(input_name) as input_name:
-        chr_list = get_input_list(input_name.read())
+        input_b, port1_b, port2_b = get_input_list(input_name.read())
 
-    dp = DataPath(128, 128, chr_list)
+    dp = DataPath(128, 128, input_b)
     dp.load_program(scr_name)
+
+    dp.ports[0]["in"] = port1_b
+    dp.ports[1]["in"] = port2_b
 
     cu = ControlUnit(dp, True)
 
     tick_count = cu.juggernaut()
     cmd_count = cu.cmd_count
 
-    output = cu.dp.output_buffer
+    output = cu.dp.output_buffer + cu.dp.ports[0]["out"] + cu.dp.ports[1]["out"]
 
     for i in output:
         if ord(" ") <= i <= ord("z") or i == ord("\n"):
             print(chr(i), end="")
         else:
-            print(i)
+            print(i, end="")
 
     print(f"\n\nTick count: {tick_count}, Command count: {cmd_count}")
 
