@@ -1,5 +1,6 @@
 # Brainfuck. Транслятор и модель
 
+- Студент: Зайцев Артём Михайлович
 - Преподаватели, Пенской Александр Владимирович.
 - `asm | acc | harv | mc -> hw | tick -> instr | struct | stream | port | pstr | prob1 | cache`
 - Базовый вариант.
