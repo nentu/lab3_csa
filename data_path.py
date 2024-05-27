@@ -222,7 +222,7 @@ class DataPath:
         self._port_signal(1)
 
     def _port_signal(self, i):
-        logging.debug(f"Output port{i + 1}: {self.ports[i]["out"]} <= {self.acc}")
+        logging.debug(f"Output port{i + 1}: {self.ports[i]['out']} <= {self.acc}")
         self.ports[i]["out"].append(self.acc)
 
     def load_program(self, program_name):
