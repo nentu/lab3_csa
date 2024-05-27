@@ -43,50 +43,50 @@ def get_line_len():
     return max(bit_dict.values()) + 1
 
 
-START = [["IP", "IR", "IM"] + ["M_MUX_IP_2", "M_IP", "M_IM"]]  # noqa: RUF005
+START = [["IP", "IR", "IM"] + ["M_MUX_IP_2", "M_IP", "M_IM"]]
 
 # Command implementation
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR
 
 ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
-    ["MUX_IP", "ALU", "ACC"] + ["M_IP", "M_IM"] + SKIP_LIST  # noqa: RUF005
+    ["MUX_IP", "ALU", "ACC"]
 ]
 
-STORE = [["MUX_IP", "DIN"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
+STORE = [["MUX_IP", "DIN"]]
 
-JMP = [["M_IP", "M_IM", *SKIP_LIST]]
+JMP = [[]]
 
-JMPZ = [["MUX_JMP_TYPE"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
+JMPZ = [["MUX_JMP_TYPE"]]
 
-INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["M_IP", "M_IM"] + ["MUX_ADDR_S", "MUX_ALU_S"]]  # noqa: RUF005
-PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
-PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
+INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["MUX_ADDR_S", "MUX_ALU_S"]]
+PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"]]
+PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"]]
 
-OUTPUT = [["MUX_IP", "OUTPUT"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
+OUTPUT = [["MUX_IP", "OUTPUT"]]
 
-PORT1_OUT = [["MUX_IP", "PORT1_OUT"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
-PORT2_OUT = [["MUX_IP", "PORT2_OUT"] + ["M_IP", "M_IM"] + SKIP_LIST]  # noqa: RUF005
+PORT1_OUT = [["MUX_IP", "PORT1_OUT"]]
+PORT2_OUT = [["MUX_IP", "PORT2_OUT"]]
 
 HLT = []
 
 op_dict = {
-    Opcode.INC: ALU_OPERATION,
-    Opcode.DEC: ALU_OPERATION,
-    Opcode.CLS: ALU_OPERATION,
-    Opcode.NEG: ALU_OPERATION,
-    Opcode.HLT: HLT,
-    Opcode.INPUT: INPUT,
-    Opcode.OUTPUT: OUTPUT,
-    Opcode.LOAD: ALU_OPERATION,
-    Opcode.STORE: STORE,
-    Opcode.ADD: ALU_OPERATION,
-    Opcode.SUB: ALU_OPERATION,
-    Opcode.JMP: JMP,
-    Opcode.JMPZ: JMPZ,
-    Opcode.PORT1_IN: PORT1_IN,
-    Opcode.PORT2_IN: PORT2_IN,
-    Opcode.PORT1_OUT: PORT1_OUT,
-    Opcode.PORT2_OUT: PORT2_OUT,
+    Opcode.INC: ALU_OPERATION.copy(),
+    Opcode.DEC: ALU_OPERATION.copy(),
+    Opcode.CLS: ALU_OPERATION.copy(),
+    Opcode.NEG: ALU_OPERATION.copy(),
+    Opcode.HLT: HLT.copy(),
+    Opcode.INPUT: INPUT.copy(),
+    Opcode.OUTPUT: OUTPUT.copy(),
+    Opcode.LOAD: ALU_OPERATION.copy(),
+    Opcode.STORE: STORE.copy(),
+    Opcode.ADD: ALU_OPERATION.copy(),
+    Opcode.SUB: ALU_OPERATION.copy(),
+    Opcode.JMP: JMP.copy(),
+    Opcode.JMPZ: JMPZ.copy(),
+    Opcode.PORT1_IN: PORT1_IN.copy(),
+    Opcode.PORT2_IN: PORT2_IN.copy(),
+    Opcode.PORT1_OUT: PORT1_OUT.copy(),
+    Opcode.PORT2_OUT: PORT2_OUT.copy(),
 }
 
 #  Address implementation
@@ -94,11 +94,11 @@ op_dict = {
 
 DIR_ADDR = []
 
-VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"]]  # noqa: RUF005
+VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"]]
 
 INDIR = [
-    ["MUX_ADDR", "ADDR", "DOUT"] + ["M_MUX_IP", "M_IP", "M_IM"],  # noqa: RUF005
-    ["ADDR", "DOUT", "MUX_ALU"] + ["M_MUX_IP", "M_IP", "M_IM"],  # noqa: RUF005
+    ["MUX_ADDR", "ADDR", "DOUT"],
+    ["ADDR", "DOUT", "MUX_ALU"],
 ]
 
 NO_OP = []
@@ -110,3 +110,20 @@ address_dict = {
     Address.LABEL_VAL: VAL,
     Address.INDIRECT: INDIR,
 }
+
+for name, operation in op_dict.items():
+    if name == HLT:
+        continue
+    for i in range(len(operation)):
+        if i != len(operation) - 1:
+            operation[i] += ["M_MUX_IP"]
+        operation[i] += ["M_IP", "M_IM"]
+
+        if name != Opcode.INPUT:
+            operation[i] += SKIP_LIST
+
+for address in address_dict.values():
+    for i in range(len(address)):
+        address[i] += ["M_MUX_IP", "M_IP", "M_IM"]
+
+

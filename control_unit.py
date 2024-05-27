@@ -6,6 +6,10 @@ from isa import code_to_operation
 from mc_generator import generate_mc
 
 
+class TickLimitError(Exception):
+    pass
+
+
 class ControlUnit:
     mc_mem = None
 
@@ -92,6 +96,9 @@ class ControlUnit:
                 break
             except EmptyBufferError:
                 break
+
+            if tick > 1e6:
+                raise TickLimitError()
         return tick
 
     def execute(self):

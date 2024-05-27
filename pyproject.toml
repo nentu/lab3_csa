@@ -89,6 +89,7 @@ ignore = [
     # to simplify code for non-Python programmers
     "PTH118", # `os.path.join()` should be replaced by `Path` with `/` operator
     "UP032",  # [*] Use f-string instead of `format` call
+    "RUF005", # Comment contains ambiguous `с` (CYRILLIC SMALL LETTER ES). Did you mean `c` (LATIN SMALL LETTER C)
 
 
 ]

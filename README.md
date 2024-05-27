@@ -115,7 +115,7 @@ program ::= <оператор> | <метка>
   команд `load`, `store` соответственно.
 - Обработка данных осуществляется по текущему адресу операциями АЛУ.
 - Поддерживается ввод/вывод данных через соответственные буферы. Команды `input`, `output`.
-  - Поддерживается ввод и вывод в 2 дополнительных порта. Команды `inp`, `outp`.
+    - Поддерживается ввод и вывод в 2 дополнительных порта. Команды `inp`, `outp`.
 - Поток управления:
     - инкремент `PC` после каждой инструкции;
     - условный (`jmpz`) и безусловный (`jmp`) переходы (использование см. в разделе транслятор).
@@ -309,75 +309,82 @@ program ::= <оператор> | <метка>
 
 ##### `START`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 1  | 0      | 0            | 1  | 0        | 0    | 0       | 0             | 0   | 0   | 0      | 0   | 0    | 2        | 1    | 0         | 0         |
+| 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 0 | 0 |
 
 ##### `INC`, `DEC`, `ADD`, `SUB`, `CLS`, `NEG`, `LOAD`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 1   | 1   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 1 | 0 | 0 | -1 | 0 | -1 | -1 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `STORE`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 1   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 1 | 0 | 0 | -1 | 0 | -1 | -1 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `JMP`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 0      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 0 | 0 | 0 | -1 | 0 | -1 | -1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `JMPZ`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 0      | 1            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 0 | 1 | 0 | -1 | 0 | -1 | -1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `INPUT`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | 1             | 1   | 1   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 1 | 0 | 0 | -1 | 0 | -1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `PORT1_IN`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT |
+M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
 |----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | 2             | 1   | 1   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| 0 | 1 | 0 | 0 | -1 | 0 | -1 | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ##### `PORT2_IN`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | 3             | 1   | 1   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 1      | 0            | 0  | -1       | 0    | -1      | 3             | 1   | 1   | 0      | 0   | 0    | 0        | 1    | 0         | 0         |
 
 ##### `OUTPUT`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 1      | 0   | 0    | 0        | 1    | 0         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 1      | 0   | 0    | 0        | 1    | 0         | 0         |
 
 ##### `PORT1_OUT`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 1         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 1         | 0         |
 
 ##### `PORT2_OUT`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 0         | 1         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 1      | 0            | 0  | -1       | 0    | -1      | -1            | 0   | 0   | 0      | 0   | 0    | 0        | 1    | 0         | 1         |
 
 ##### `HLT`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 0      | 0            | 0  | 0        | 0    | 0       | 0             | 0   | 0   | 0      | 0   | 0    | 0        | 0    | 0         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 0      | 0            | 0  | 0        | 0    | 0       | 0             | 0   | 0   | 0      | 0   | 0    | 0        | 0    | 0         | 0         |
 
 </details>
 
@@ -390,16 +397,16 @@ program ::= <оператор> | <метка>
 
 ##### `VAL`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 0      | 0            | 0  | 1        | 1    | 1       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 0      | 0            | 0  | 1        | 1    | 1       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
 
 ##### `INDIR`
 
-| IP | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
-|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
-| 0  | 0      | 0            | 0  | 1        | 1    | 0       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
-| 0  | 0      | 0            | 0  | 0        | 1    | 1       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
+| IP | IM | MUX_IP | MUX_JMP_TYPE | IR | MUX_ADDR | ADDR | MUX_ALU | MUX_ALU_INPUT | ALU | ACC | OUTPUT | DIN | DOUT | M_MUX_IP | M_IP | PORT1_OUT | PORT2_OUT |
+|----|----|--------|--------------|----|----------|------|---------|---------------|-----|-----|--------|-----|------|----------|------|-----------|-----------|
+| 0  | 0  | 0      | 0            | 0  | 1        | 1    | 0       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
+| 0  | 0  | 0      | 0            | 0  | 0        | 1    | 1       | 0             | 0   | 0   | 0      | 0   | 1    | 1        | 1    | 0         | 0         |
 
 </details>
 
