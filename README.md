@@ -530,8 +530,8 @@ $ poetry run ruff format .
 
 | ФИО                     | алг             | LoC | code байт | code инстр. | инстр. | такт. | вариант                                                                                                 |
 |-------------------------|-----------------|-----|-----------|-------------|--------|-------|---------------------------------------------------------------------------------------------------------|
-| Зайцев Артём Михайлович | hello           | 22  | -         | 15          | 134    | 373   | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` | 
-| Зайцев Артём Михайлович | cat             | 4   | -         | 3           | 13     | 29    | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
-| Зайцев Артём Михайлович | hello_user_name | 74  | -         | 57          | 369    | 1030  | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
-| Зайцев Артём Михайлович | prob1           | 40  | -         | 36          | 5453   | 15090 | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
+| Зайцев Артём Михайлович | hello           | 22  | -         | 15          | 134    | 908   | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` | 
+| Зайцев Артём Михайлович | cat             | 4   | -         | 3           | 13     | 72    | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
+| Зайцев Артём Михайлович | hello_user_name | 74  | -         | 57          | 369    | 2510  | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
+| Зайцев Артём Михайлович | prob1           | 40  | -         | 36          | 5453   | 37428 | `asm \| acc \| harv \| mc -> hw \| tick -> instr \| struct \| stream \| port \| pstr \| prob1 \| cache` |
                                                                     

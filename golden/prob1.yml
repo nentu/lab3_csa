@@ -95,7 +95,7 @@ out_stdout: |
   233168
 
 
-  Tick count: 15090, Command count: 5453
+  Tick count: 37428, Command count: 5453
 
 out_log: |
   DEBUG   control_unit:log_state     IP: 0; IR: cmd: INC, addr NO_OP; ADDR: 0; Z: 0; ACC: 0

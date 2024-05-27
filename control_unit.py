@@ -9,7 +9,7 @@ from mc_generator import generate_mc
 class TickLimitError(Exception):
     pass
 
-
+TICK_LIMIT = 5e4
 class ControlUnit:
     mc_mem = None
 
@@ -97,8 +97,9 @@ class ControlUnit:
             except EmptyBufferError:
                 break
 
-            if tick > 1e6:
-                raise TickLimitError()
+            if tick > TICK_LIMIT:
+                logging.error("Tick limit exceeded")
+                return -1
         return tick
 
     def execute(self):

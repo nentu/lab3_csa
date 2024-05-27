@@ -43,33 +43,34 @@ def get_line_len():
     return max(bit_dict.values()) + 1
 
 
-START = [["IP", "IR", "IM"] + ["M_MUX_IP_2", "M_IP", "M_IM"]]
+START = [["IP"], ["IM"], ["IR"] + ["M_MUX_IP_2"]]
 
 # Command implementation
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR
 
 ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
-    ["MUX_IP", "ALU", "ACC"]
+    ["ALU"], ["ACC"]
 ]
 
-STORE = [["MUX_IP", "DIN"]]
+STORE = [["DIN"]]
 
 JMP = [[]]
 
 JMPZ = [["MUX_JMP_TYPE"]]
 
-INPUT = [["MUX_IP", "MUX_ALU_INPUT", "ALU", "ACC"] + ["MUX_ADDR_S", "MUX_ALU_S"]]
-PORT1_IN = [["MUX_IP", "PORT1_IN", "ALU", "ACC"]]
-PORT2_IN = [["MUX_IP", "PORT2_IN", "ALU", "ACC"]]
+INPUT = [["MUX_ALU_INPUT"], ["ALU", "MUX_ALU_INPUT_S"], ["ACC"]]
+PORT1_IN = [["PORT1_IN"], ["ALU"], ["ACC"]]
+PORT2_IN = [["PORT2_IN"], ["ALU"], ["ACC"]]
 
-OUTPUT = [["MUX_IP", "OUTPUT"]]
+OUTPUT = [["OUTPUT"]]
 
-PORT1_OUT = [["MUX_IP", "PORT1_OUT"]]
-PORT2_OUT = [["MUX_IP", "PORT2_OUT"]]
+PORT1_OUT = [["PORT1_OUT"]]
+PORT2_OUT = [["PORT2_OUT"]]
 
 HLT = []
 
 op_dict = {
+    "Start": START.copy(),
     Opcode.INC: ALU_OPERATION.copy(),
     Opcode.DEC: ALU_OPERATION.copy(),
     Opcode.CLS: ALU_OPERATION.copy(),
@@ -94,11 +95,11 @@ op_dict = {
 
 DIR_ADDR = []
 
-VAL = [["MUX_ALU", "MUX_ADDR", "ADDR", "DOUT"]]
+VAL = [["MUX_ALU", "MUX_ADDR"], ["ADDR"] + SKIP_LIST, ["DOUT"] + SKIP_LIST]
 
 INDIR = [
-    ["MUX_ADDR", "ADDR", "DOUT"],
-    ["ADDR", "DOUT", "MUX_ALU"],
+    ["MUX_ADDR", "MUX_ALU"], ["ADDR"] + SKIP_LIST, ["DOUT"] + SKIP_LIST,
+    ["ADDR"] + ["MUX_ALU_S"], ["DOUT"] + SKIP_LIST
 ]
 
 NO_OP = []
@@ -117,9 +118,10 @@ for name, operation in op_dict.items():
     for i in range(len(operation)):
         if i != len(operation) - 1:
             operation[i] += ["M_MUX_IP"]
+        elif name not in ["Start", Opcode.JMP, Opcode.JMPZ]:
+            operation[i] += ["MUX_IP"]
         operation[i] += ["M_IP", "M_IM"]
-
-        if name != Opcode.INPUT:
+        if name not in [Opcode.INPUT, "Start"]:
             operation[i] += SKIP_LIST
 
 for address in address_dict.values():

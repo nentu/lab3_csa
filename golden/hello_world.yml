@@ -51,7 +51,7 @@ out_code: |-
 out_stdout: |
   Hello, world!
 
-  Tick count: 373, Command count: 134
+  Tick count: 908, Command count: 134
 
 out_log: |
   DEBUG   control_unit:log_state     IP: 0; IR: cmd: INC, addr NO_OP; ADDR: 0; Z: 0; ACC: 0
