@@ -9,7 +9,10 @@ from mc_generator import generate_mc
 class TickLimitError(Exception):
     pass
 
+
 TICK_LIMIT = 5e4
+
+
 class ControlUnit:
     mc_mem = None
 

@@ -49,7 +49,8 @@ START = [["IP"], ["IM"], ["IR"] + ["M_MUX_IP_2"]]
 # На этом момента на левый вход АЛУ уже подаётся нужный аргумент и адрес операнда находится в регистре AR
 
 ALU_OPERATION = [  # inc, dec, add, sub, cls, neg, load
-    ["ALU"], ["ACC"]
+    ["ALU"],
+    ["ACC"],
 ]
 
 STORE = [["DIN"]]
@@ -98,8 +99,11 @@ DIR_ADDR = []
 VAL = [["MUX_ALU", "MUX_ADDR"], ["ADDR"] + SKIP_LIST, ["DOUT"] + SKIP_LIST]
 
 INDIR = [
-    ["MUX_ADDR", "MUX_ALU"], ["ADDR"] + SKIP_LIST, ["DOUT"] + SKIP_LIST,
-    ["ADDR"] + ["MUX_ALU_S"], ["DOUT"] + SKIP_LIST
+    ["MUX_ADDR", "MUX_ALU"],
+    ["ADDR"] + SKIP_LIST,
+    ["DOUT"] + SKIP_LIST,
+    ["ADDR"] + ["MUX_ALU_S"],
+    ["DOUT"] + SKIP_LIST,
 ]
 
 NO_OP = []
